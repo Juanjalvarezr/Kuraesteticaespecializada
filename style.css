@@ -769,21 +769,70 @@ h2.section-title { font-size: 2.5rem; }
         padding: 0 1rem; 
     }
     
+    section {
+        padding: 3rem 0;
+    }
+
+    .hero {
+        height: 80vh;
+        padding-top: 80px;
+    }
+
     .hero h1 { 
-        font-size: 2.2rem; 
+        font-size: 2rem; 
+        margin-bottom: 1rem;
         word-break: break-word;
     }
-    
+
+    .hero p {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+    .section-header {
+        margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .subtitle {
+        letter-spacing: 2px;
+        margin-bottom: 0.5rem;
+    }
+
+    .service-card {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .service-card i {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .service-detail-block {
+        margin-bottom: 3rem;
+    }
+
     .services-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
     
     .ba-grid {
         grid-template-columns: 1fr;
+        gap: 2rem;
     }
     
     .service-info-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .info-item {
+        padding: 1.5rem;
     }
 
     .nav-links { 
