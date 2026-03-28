@@ -215,7 +215,7 @@ section {
 /* Services Grid Premium */
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 3rem;
 }
 
@@ -412,7 +412,7 @@ section {
 
 .map-container {
     flex: 1.5;
-    min-width: 350px;
+    min-width: 100%;
     height: 450px;
     border-radius: var(--border-radius);
     overflow: hidden;
@@ -566,7 +566,7 @@ section {
 }
 
 .card-img-side {
-    flex: 0 0 380px;
+    flex: 0 0 320px;
     position: relative;
     overflow: hidden;
 }
@@ -639,7 +639,8 @@ section {
         flex-direction: column;
     }
     .card-img-side {
-        flex: 0 0 250px;
+        flex: 0 0 auto;
+        height: 250px;
     }
 }
 
@@ -675,7 +676,7 @@ section {
 
 .ba-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 4rem;
 }
 
