@@ -18,6 +18,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    max-width: 100%;
 }
 
 html {
@@ -30,6 +31,8 @@ body {
     line-height: 1.7;
     background-color: var(--bg-color);
     overflow-x: hidden;
+    width: 100%;
+    position: relative;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -762,7 +765,28 @@ h2.section-title { font-size: 2.5rem; }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .hero h1 { font-size: 2.5rem; }
-    .nav-links { display: none; }
-    .container { padding: 0 1.5rem; }
+    .container { 
+        padding: 0 1rem; 
+    }
+    
+    .hero h1 { 
+        font-size: 2.2rem; 
+        word-break: break-word;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .ba-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .service-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-links { 
+        display: none; 
+    }
 }
