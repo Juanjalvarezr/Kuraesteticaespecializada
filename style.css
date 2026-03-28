@@ -483,20 +483,6 @@ section {
     background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.9) 100%);
 }
 
-.card-badge {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    padding: 0.4rem 1rem;
-    border-radius: 50px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    z-index: 2;
-    border: 1px solid rgba(255,255,255,0.3);
-}
 
 .card-content-premium {
     position: relative;
