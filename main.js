@@ -119,6 +119,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // 4.1 WhatsApp Click Tracking to n8n
+    const whatsappChatBtn = whatsappPopup.querySelector('a.btn-primary');
+    whatsappChatBtn.addEventListener('click', async () => {
+        const clickData = {
+            event: 'whatsapp_click',
+            origin: window.location.pathname,
+            fecha: new Date().toISOString()
+        };
+        
+        try {
+            // Send to n8n in background
+            fetch(N8N_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(clickData)
+            });
+        } catch (e) {
+            console.error('Error logging WhatsApp click:', e);
+        }
+    });
+
     // 4. n8n Form Submission Link
     const contactForm = document.getElementById('n8n-contact-form');
     const formFeedback = document.getElementById('form-feedback');
