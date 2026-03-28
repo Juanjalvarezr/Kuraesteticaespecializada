@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const formFeedback = document.getElementById('form-feedback');
 
     // CONFIGURATION: Replace with your actual n8n webhook URL
-    const N8N_WEBHOOK_URL = 'https://your-n8n-instance.com/webhook/kura-leads';
+    const N8N_WEBHOOK_URL = 'https://n8n-production-a0599.up.railway.app/webhook/webhook-kura';
 
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
