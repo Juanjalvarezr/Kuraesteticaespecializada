@@ -100,17 +100,18 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCarousel();
     });
 
-    // 4. WhatsApp Widget Logic
+    // 4. WhatsApp Widget Logic (Desktop Only)
     const whatsappWidget = document.getElementById('whatsapp-widget');
     const whatsappPopup = document.getElementById('whatsapp-popup');
 
-    whatsappWidget.addEventListener('click', (e) => {
-        // Toggle popup only if clicking the widget container, not the link inside
-        if (e.target.closest('#whatsapp-widget') && !e.target.closest('a')) {
-            const isVisible = whatsappPopup.style.display === 'block';
-            whatsappPopup.style.display = isVisible ? 'none' : 'block';
-        }
-    });
+    if (whatsappWidget && whatsappPopup) {
+        whatsappWidget.addEventListener('click', (e) => {
+            if (!e.target.closest('a')) {
+                const isVisible = whatsappPopup.style.display === 'block';
+                whatsappPopup.style.display = isVisible ? 'none' : 'block';
+            }
+        });
+    }
 
     // Close popup when clicking outside
     document.addEventListener('click', (e) => {
