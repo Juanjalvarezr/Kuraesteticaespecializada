@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Regístrate en https://www.emailjs.com/ y reemplaza estos valores
     const EMAILJS_SERVICE_ID = 'service_kura'; // Tu Service ID de EmailJS
     const EMAILJS_TEMPLATE_ID = 'template_contacto'; // Tu Template ID de EmailJS
-    const EMAILJS_PUBLIC_KEY = 'TU_PUBLIC_KEY'; // Tu Public Key de EmailJS
+    const EMAILJS_PUBLIC_KEY = 'f9l8Zypv5zIgRhODa'; // Tu Public Key de EmailJS
 
     // Inicializar EmailJS (cargar el script si no está cargado)
     if (!window.emailjs) {
