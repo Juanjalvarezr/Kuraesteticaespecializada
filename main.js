@@ -120,29 +120,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // CONFIGURATION: Replace with your actual n8n webhook URL
-    const N8N_WEBHOOK_URL = 'https://n8n-production-a0599.up.railway.app/webhook/webhook-kura';
+    // CONFIGURATION: EmailJS - Servicio gratuito para enviar emails directamente
+    // Regístrate en https://www.emailjs.com/ y reemplaza estos valores
+    const EMAILJS_SERVICE_ID = 'service_kura'; // Tu Service ID de EmailJS
+    const EMAILJS_TEMPLATE_ID = 'template_contacto'; // Tu Template ID de EmailJS
+    const EMAILJS_PUBLIC_KEY = 'TU_PUBLIC_KEY'; // Tu Public Key de EmailJS
 
-    // 4.1 WhatsApp Click Tracking to n8n
+    // Inicializar EmailJS (cargar el script si no está cargado)
+    if (!window.emailjs) {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
+        script.onload = () => {
+            window.emailjs.init(EMAILJS_PUBLIC_KEY);
+        };
+        document.head.appendChild(script);
+    } else {
+        window.emailjs.init(EMAILJS_PUBLIC_KEY);
+    }
+
+    // 4.1 WhatsApp Click Tracking (solo logging local)
     const whatsappChatBtn = whatsappPopup?.querySelector('a.btn-primary');
     if (whatsappChatBtn) {
-        whatsappChatBtn.addEventListener('click', async () => {
-            const clickData = {
-                event: 'whatsapp_click',
+        whatsappChatBtn.addEventListener('click', () => {
+            console.log('WhatsApp click tracked:', {
                 origin: window.location.pathname,
                 fecha: new Date().toISOString()
-            };
-            
-            try {
-                // Send to n8n in background
-                fetch(N8N_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(clickData)
-                });
-            } catch (e) {
-                console.error('Error logging WhatsApp click:', e);
-            }
+            });
         });
     }
 
@@ -179,26 +182,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 servicio: servicioSelect.value,
                 mensaje: mensajeTextarea.value.trim(),
                 fecha: new Date().toISOString(),
-                pagina: window.location.pathname
+                pagina: window.location.pathname,
+                to_email: 'info@kuraestetica.com' // Email donde recibirás las notificaciones
             };
 
-            // UI feedback before actual fetch
+            // UI feedback before sending
             const submitBtn = contactForm.querySelector('button');
             const originalText = submitBtn.innerText;
             submitBtn.disabled = true;
             submitBtn.innerText = 'Enviando...';
 
             try {
-                console.log('Enviando formulario:', formData);
+                console.log('Enviando formulario por EmailJS:', formData);
                 
-                const response = await fetch(N8N_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
+                // Verificar que EmailJS esté cargado
+                if (!window.emailjs) {
+                    throw new Error('EmailJS no está cargado. Por favor recarga la página.');
+                }
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                // Enviar email usando EmailJS
+                const response = await window.emailjs.send(
+                    EMAILJS_SERVICE_ID,
+                    EMAILJS_TEMPLATE_ID,
+                    formData
+                );
+                
+                if (response.status !== 200) {
+                    throw new Error(`EmailJS error: ${response.text}`);
                 }
 
                 // Success feedback
@@ -212,10 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     submitBtn.innerText = originalText;
                 }, 5000);
 
-                console.log('Formulario enviado exitosamente');
+                console.log('Formulario enviado exitosamente por EmailJS');
 
             } catch (error) {
-                console.error('Error sending lead to n8n:', error);
+                console.error('Error sending email:', error);
                 alert('Hubo un error al enviar el mensaje. Por favor intenta de nuevo o contáctanos directamente por WhatsApp.');
                 submitBtn.disabled = false;
                 submitBtn.innerText = originalText;
