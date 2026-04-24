@@ -120,79 +120,108 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // CONFIGURATION: Replace with your actual n8n webhook URL
+    const N8N_WEBHOOK_URL = 'https://n8n-production-a0599.up.railway.app/webhook/webhook-kura';
+
     // 4.1 WhatsApp Click Tracking to n8n
-    const whatsappChatBtn = whatsappPopup.querySelector('a.btn-primary');
-    whatsappChatBtn.addEventListener('click', async () => {
-        const clickData = {
-            event: 'whatsapp_click',
-            origin: window.location.pathname,
-            fecha: new Date().toISOString()
-        };
-        
-        try {
-            // Send to n8n in background
-            fetch(N8N_WEBHOOK_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(clickData)
-            });
-        } catch (e) {
-            console.error('Error logging WhatsApp click:', e);
-        }
-    });
+    const whatsappChatBtn = whatsappPopup?.querySelector('a.btn-primary');
+    if (whatsappChatBtn) {
+        whatsappChatBtn.addEventListener('click', async () => {
+            const clickData = {
+                event: 'whatsapp_click',
+                origin: window.location.pathname,
+                fecha: new Date().toISOString()
+            };
+            
+            try {
+                // Send to n8n in background
+                fetch(N8N_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(clickData)
+                });
+            } catch (e) {
+                console.error('Error logging WhatsApp click:', e);
+            }
+        });
+    }
 
     // 4. n8n Form Submission Link
     const contactForm = document.getElementById('n8n-contact-form');
     const formFeedback = document.getElementById('form-feedback');
 
-    // CONFIGURATION: Replace with your actual n8n webhook URL
-    const N8N_WEBHOOK_URL = 'https://n8n-production-a0599.up.railway.app/webhook/webhook-kura';
+    if (contactForm && formFeedback) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Get form values
+            const nameInput = contactForm.querySelector('input[type="text"]');
+            const emailInput = contactForm.querySelector('input[type="email"]');
+            const servicioSelect = contactForm.querySelector('select');
+            const mensajeTextarea = contactForm.querySelector('textarea');
+            
+            // Basic validation
+            if (!nameInput.value.trim() || !emailInput.value.trim() || !servicioSelect.value) {
+                alert('Por favor completa todos los campos obligatorios.');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value)) {
+                alert('Por favor ingresa un email válido.');
+                return;
+            }
+            
+            const formData = {
+                nombre: nameInput.value.trim(),
+                email: emailInput.value.trim(),
+                servicio: servicioSelect.value,
+                mensaje: mensajeTextarea.value.trim(),
+                fecha: new Date().toISOString(),
+                pagina: window.location.pathname
+            };
 
-    contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const formData = {
-            nombre: contactForm.querySelector('input[type="text"]').value,
-            email: contactForm.querySelector('input[type="email"]').value,
-            servicio: contactForm.querySelector('select').value,
-            mensaje: contactForm.querySelector('textarea').value,
-            fecha: new Date().toISOString()
-        };
+            // UI feedback before actual fetch
+            const submitBtn = contactForm.querySelector('button');
+            const originalText = submitBtn.innerText;
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Enviando...';
 
-        // UI feedback before actual fetch
-        const submitBtn = contactForm.querySelector('button');
-        const originalText = submitBtn.innerText;
-        submitBtn.disabled = true;
-        submitBtn.innerText = 'Enviando...';
-
-        try {
-            // Simulated fetch if URL is default, real fetch otherwise
-            if (N8N_WEBHOOK_URL.includes('your-n8n-instance')) {
-                console.log('n8n Simulation (Success):', formData);
-                await new Promise(resolve => setTimeout(resolve, 1500));
-            } else {
+            try {
+                console.log('Enviando formulario:', formData);
+                
                 const response = await fetch(N8N_WEBHOOK_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)
                 });
-                if (!response.ok) throw new Error('Network response was not ok');
-            }
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
 
-            // Success feedback
-            formFeedback.style.display = 'block';
-            contactForm.reset();
-            setTimeout(() => {
-                formFeedback.style.display = 'none';
+                // Success feedback
+                formFeedback.style.display = 'block';
+                contactForm.reset();
+                
+                // Reset button after delay
+                setTimeout(() => {
+                    formFeedback.style.display = 'none';
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = originalText;
+                }, 5000);
+
+                console.log('Formulario enviado exitosamente');
+
+            } catch (error) {
+                console.error('Error sending lead to n8n:', error);
+                alert('Hubo un error al enviar el mensaje. Por favor intenta de nuevo o contáctanos directamente por WhatsApp.');
                 submitBtn.disabled = false;
                 submitBtn.innerText = originalText;
-            }, 5000);
-
-        } catch (error) {
-            console.error('Error sending lead to n8n:', error);
-            alert('Hubo un error al enviar el mensaje. Por favor intenta de nuevo.');
-            submitBtn.disabled = false;
-            submitBtn.innerText = originalText;
-        }
-    });
+            }
+        });
+    } else {
+        console.log('Formulario o elemento de feedback no encontrado');
+    }
 });
