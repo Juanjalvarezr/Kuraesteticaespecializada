@@ -203,6 +203,9 @@ header.header-light .logo-cafe {
 }
 
 @media (max-width: 768px) {
+    .hero {
+        padding-top: 100px; /* Push content down so header doesn't overlap logo */
+    }
     .hero-logo {
         height: 110px;
         margin-bottom: 1.5rem;
