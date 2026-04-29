@@ -858,6 +858,28 @@ h2.section-title { font-size: 2.5rem; }
         margin-bottom: 0.2rem;
     }
 
+    .hero-btns {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0 1.5rem;
+        width: 100%;
+        align-items: center;
+    }
+
+    .hero-btns .btn {
+        width: 100%;
+        max-width: 320px;
+        padding: 1rem;
+    }
+
+    .logo-img {
+        height: 55px; /* Slightly larger header logo for mobile */
+    }
+
+    .social-bar {
+        display: none; /* Hide social bar on mobile to save space and avoid clutter */
+    }
+
     .service-card {
         padding: 2rem 1rem;
     }
