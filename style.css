@@ -82,6 +82,31 @@ nav {
     color: var(--primary-color);
     letter-spacing: 4px;
     text-transform: uppercase;
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 45px;
+    width: auto;
+}
+
+.logo-blanco {
+    display: block;
+}
+
+.logo-cafe {
+    display: none;
+}
+
+header.scrolled .logo-blanco,
+header.header-light .logo-blanco {
+    display: none;
+}
+
+header.scrolled .logo-cafe,
+header.header-light .logo-cafe {
+    display: block;
 }
 
 .nav-links {
@@ -165,6 +190,20 @@ nav {
 .hero h1 {
     font-size: 5rem;
     margin-bottom: 1.5rem;
+}
+
+.hero-logo {
+    height: 100px;
+    width: auto;
+    margin-bottom: 2rem;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .hero-logo {
+        height: 70px;
+        margin-bottom: 1.5rem;
+    }
 }
 
 .hero h1 span {
