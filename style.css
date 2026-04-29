@@ -22,6 +22,8 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
 body {
@@ -30,7 +32,7 @@ body {
     line-height: 1.7;
     background-color: var(--bg-color);
     overflow-x: hidden;
-    width: 100vw;
+    width: 100%;
     position: relative;
     -webkit-font-smoothing: antialiased;
 }
@@ -195,14 +197,23 @@ header.header-light .logo-cafe {
 .hero-logo {
     height: 100px;
     width: auto;
+    max-width: 90%;
     margin-bottom: 2rem;
     object-fit: contain;
 }
 
 @media (max-width: 768px) {
     .hero-logo {
-        height: 70px;
+        height: 110px;
         margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+        font-size: 2.8rem;
+        line-height: 1.2;
+    }
+    .hero p {
+        font-size: 1.1rem;
+        padding: 0 1rem;
     }
 }
 
